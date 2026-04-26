@@ -1,0 +1,76 @@
+-- nvim-treesitter
+return {}
+
+-- return {
+-- 	"nvim-treesitter/nvim-treesitter",
+-- 	-- branch = "main",
+-- 	-- commit = vim.fn.has("nvim-0.12") == 0 and "7caec274fd19c12b55902a5b795100d21531391f" or nil,
+-- 	-- version = false,
+-- 	build = ":TSUpdate",
+-- 	event = { "BufReadPost", "BufNewFile" },
+-- 	cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
+-- 	opts = {
+-- 		indent = { enable = true },
+-- 		highlight = { enable = true },
+-- 		folds = { enable = true },
+-- 		ensure_installed = {
+-- 			"bash",
+-- 			"c",
+-- 			"diff",
+-- 			"html",
+-- 			"javascript",
+-- 			"jsdoc",
+-- 			"json",
+-- 			"lua",
+-- 			"luadoc",
+-- 			"luap",
+-- 			"markdown",
+-- 			"markdown_inline",
+-- 			"printf",
+-- 			"python",
+-- 			"query",
+-- 			"regex",
+-- 			"toml",
+-- 			"tsx",
+-- 			"typescript",
+-- 			"vim",
+-- 			"vimdoc",
+-- 			"xml",
+-- 			"yaml",
+-- 			"rust",
+-- 		},
+-- 	},
+-- 	config = function(_, opts)
+-- 		-- Use the module from your provided help doc
+-- 		local TS = require("nvim-treesitter")
+--
+-- 		-- Setup parser installation options
+-- 		TS.setup(opts)
+--
+-- 		-- FileType autocmd for feature activation
+-- 		vim.api.nvim_create_autocmd("FileType", {
+-- 			group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
+-- 			callback = function(ev)
+-- 				-- Check if language is supported
+-- 				local lang = vim.treesitter.language.get_lang(ev.match)
+-- 				if not lang then
+-- 					return
+-- 				end
+--
+-- 				-- Enable syntax highlighting
+-- 				pcall(vim.treesitter.start, ev.buf)
+--
+-- 				-- Enable indentation (from nvim-treesitter API)
+-- 				if opts.indent and opts.indent.enable then
+-- 					vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+-- 				end
+--
+-- 				-- Enable folds (from Neovim core)
+-- 				if opts.folds and opts.folds.enable then
+-- 					vim.wo.foldmethod = "expr"
+-- 					vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- 				end
+-- 			end,
+-- 		})
+-- 	end,
+-- }

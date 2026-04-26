@@ -11,10 +11,15 @@ local g = vim.g
 
 -- Appearence
 --
+-- Syntax Highlight
+vim.cmd("syntax on")
+
 -- Indent
 opt.tabstop = 4
 opt.shiftwidth = 4
 -- opt.expandtab = false
+opt.smartindent = true
+vim.cmd("filetype plugin indent on")
 
 opt.wrap = true
 opt.wrapmargin = 2
@@ -25,15 +30,18 @@ opt.scrolloff = 999
 -- opt.sidescrolloff = 8
 
 opt.relativenumber = false
-
 -- opt.colorcolumn = "80"
 
 -- Show invisible characters
 -- opt.list = true
 -- opt.listchars = "space:·"
 
+opt.ignorecase = true
+opt.smartcase = true
+
 -- Highlight cursor line
 opt.cursorline = true
+opt.number = true
 
 -- Operation
 --

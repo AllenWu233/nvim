@@ -23,7 +23,11 @@ return {
 			-- require("mini.command").setup({})
 			-- require("mini.notify").setup()
 			require("mini.tabline").setup()
-			require("mini.indentscope").setup()
+
+			require("mini.indentscope").setup({
+				symbol = "│",
+			})
+
 			require("mini.comment").setup()
 		end,
 	},

@@ -5,6 +5,7 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
 		opts = {
 			icons_enabled = true,
 			theme = "auto",
@@ -111,5 +112,40 @@ return {
 			animate = false,
 			stages = "static",
 		},
+	},
+
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufReadPost", "BufNewFile" },
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		opts = {
+			indent = {
+				char = "│",
+			},
+		},
+	},
+
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
+
+	{
+		"brenoprata10/nvim-highlight-colors",
+		-- only load when a file is opened
+		event = { "BufReadPost", "BufNewFile" },
+		config = function()
+			-- ensure termguicolors is enabled for color rendering
+			vim.opt.termguicolors = true
+			-- initialize the plugin
+			require("nvim-highlight-colors").setup()
+		end,
 	},
 }
