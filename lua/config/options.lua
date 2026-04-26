@@ -3,30 +3,28 @@ local opt = vim.opt
 local o = vim.o
 local g = vim.g
 
--- ---------- Encoding ---------- --
+-- Encoding
+--
 -- opt.encoding = "utf-8"
 -- opt.fileencoding = "utf-8"
-opt.fileencodings = { "utf-8", "ucs-bom", "gb18030", "gbk", "gb2312", "cp936" }
+-- opt.fileencodings = { "utf-8", "ucs-bom", "gb18030", "gbk", "gb2312", "cp936" }
 
--- ---------- VIEW ---------- --
+-- Appearence
+--
 -- Indent
 opt.tabstop = 4
 opt.shiftwidth = 4
 -- opt.expandtab = false
 
 opt.wrap = true
-opt.linebreak = true
 opt.wrapmargin = 2
+opt.linebreak = true
 
--- Display lines with a line break
--- opt.cursorline = true
-
--- Keep space when moving cursor
+-- Typewriter mode: keep space when moving cursor
 opt.scrolloff = 999
 -- opt.sidescrolloff = 8
 
--- Time wait for typing shortcut keys
--- opt.timeoutlen = 400
+opt.relativenumber = false
 
 -- opt.colorcolumn = "80"
 
@@ -34,7 +32,13 @@ opt.scrolloff = 999
 -- opt.list = true
 -- opt.listchars = "space:·"
 
-opt.relativenumber = false
+-- Highlight cursor line
+opt.cursorline = true
+
+-- Operation
+--
+-- Time wait for typing shortcut keys
+-- opt.timeoutlen = 400
 
 -- opt.foldmethod = "manual"
 

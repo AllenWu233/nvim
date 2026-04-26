@@ -1,3 +1,24 @@
+-- oil.nvim
+-- File explorer: edit your filesystem like a buffer
+
+--- Exit Neovim if in standalone mode (via 'oil' alias), else close buffer
+local smart_quit = function()
+	if vim.env.OIL_FM then
+		vim.cmd("quitall")
+	else
+		require("oil").close()
+	end
+end
+-- Use with zsh function:
+-- # Use oil.nvim as file explorer
+-- oil() {
+--     if [ -z "$1" ]; then
+--         OIL_FM=1 nvim -c "Oil"
+--     else
+--         OIL_FM=1 nvim -c "Oil $1"
+--     fi
+-- }
+
 return {
 	{
 		"stevearc/oil.nvim",
@@ -21,8 +42,6 @@ return {
 				["<C-h>"] = { "actions.select", opts = { horizontal = true } },
 				["<C-t>"] = { "actions.select", opts = { tab = true } },
 				["<C-p>"] = "actions.preview",
-				-- ["<C-c>"] = { "actions.close", mode = "n" },
-				["q"] = { "actions.close", mode = "n" },
 				["<C-r>"] = "actions.refresh",
 				["H"] = { "actions.parent", mode = "n" },
 				["_"] = { "actions.open_cwd", mode = "n" },
@@ -32,6 +51,8 @@ return {
 				["gx"] = "actions.open_external",
 				["."] = { "actions.toggle_hidden", mode = "n" },
 				["g\\"] = { "actions.toggle_trash", mode = "n" },
+				["<esc>"] = smart_quit,
+				["q"] = smart_quit,
 			},
 		},
 		-- Optional dependencies
@@ -39,23 +60,5 @@ return {
 		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
 		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 		lazy = false,
-	},
-
-	{
-		"nvim-telescope/telescope.nvim",
-		version = "*",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			-- optional but recommended
-			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		},
-		keys = {
-			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-			{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
-			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
-			{ "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },
-		},
 	},
 }

@@ -1,3 +1,8 @@
+-- which-key.nvim
+--
+-- Helps remembering Neovim keymaps,
+-- by showing available keybindings in a popup as typing
+
 return {
 	{
 		"folke/which-key.nvim",
