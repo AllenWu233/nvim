@@ -1,0 +1,134 @@
+return {
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
+		},
+		opts = {
+			icons = {
+				diagnostics = {
+					Error = " ",
+					Warn = " ",
+					Hint = " ",
+					Info = " ",
+				},
+			},
+			diagnostics = {
+				underline = true,
+				update_in_insert = false,
+				-- disable virtual text to hide end-of-line errors
+				virtual_text = false,
+				severity_sort = true,
+				-- diagnostic float window borders
+				-- float = { border = "rounded" },
+			},
+			inlay_hints = { enabled = true },
+			servers = {
+				lua_ls = {
+					settings = {
+						Lua = {
+							workspace = { checkThirdParty = false },
+							hint = { enable = true },
+						},
+					},
+				},
+			},
+		},
+		config = function(_, opts)
+			-- diagnostic signs
+			local icons = opts.icons.diagnostics
+			for severity, icon in pairs(icons) do
+				local name = vim.diagnostic.severity[severity:upper()]
+				if name then
+					local hl = "DiagnosticSign" .. severity
+					vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+				end
+			end
+
+			-- apply diagnostic config
+			vim.diagnostic.config(opts.diagnostics)
+
+			-- auto show diagnostics in float on cursor hold
+			vim.api.nvim_create_autocmd("CursorHold", {
+				group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+				callback = function()
+					vim.diagnostic.open_float(nil, { focus = false })
+				end,
+			})
+
+			-- lsp on_attach
+			local on_attach = function(client, bufnr)
+				local function map(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+				end
+
+				map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
+				map("n", "gr", vim.lsp.buf.references, "References")
+				map("n", "gI", vim.lsp.buf.implementation, "Goto Implementation")
+				map("n", "K", vim.lsp.buf.hover, "Hover")
+				map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
+				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+
+				if opts.inlay_hints.enabled and client.supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end
+			end
+
+			-- setup servers
+			require("mason").setup()
+			require("mason-lspconfig").setup({
+				ensure_installed = vim.tbl_keys(opts.servers),
+				handlers = {
+					function(server_name)
+						local server_opts = opts.servers[server_name] or {}
+						server_opts.capabilities = require("blink.cmp").get_lsp_capabilities(server_opts.capabilities)
+						server_opts.on_attach = on_attach
+						require("lspconfig")[server_name].setup(server_opts)
+					end,
+				},
+			})
+		end,
+	},
+
+	{
+		"mason-org/mason.nvim",
+		opts = {},
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = {
+				"pyright", -- Python
+				"lua_ls", -- Lua
+				"stylua", -- Lua Formatter
+				"bashls", -- Bash
+				"taplo", -- TOML
+				"marksman", -- Markdown
+				"yamlls",
+				"jsonls",
+			},
+		},
+		dependencies = {
+			"mason-org/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		opts = {
+			ensure_installed = {
+				"black",
+				"shellcheck", -- Bash Linter
+				"shfmt", -- Bash Formatter
+				"prettier", -- Formatter
+				"rust_analyzer",
+			},
+		},
+		dependencies = {
+			"mason-org/mason-lspconfig.nvim",
+		},
+	},
+}

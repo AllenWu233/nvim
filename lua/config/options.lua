@@ -2,6 +2,7 @@
 local opt = vim.opt
 local o = vim.o
 local g = vim.g
+local cmd = vim.cmd
 
 -- Encoding
 --
@@ -12,14 +13,15 @@ local g = vim.g
 -- Appearence
 --
 -- Syntax Highlight
-vim.cmd("syntax on")
+-- cmd("syntax on")
 
 -- Indent
-opt.tabstop = 4
 opt.shiftwidth = 4
--- opt.expandtab = false
+opt.tabstop = 4
+opt.expandtab = true
+opt.softtabstop = 4
 opt.smartindent = true
-vim.cmd("filetype plugin indent on")
+-- cmd("filetype plugin indent on")
 
 opt.wrap = true
 opt.wrapmargin = 2
@@ -42,12 +44,13 @@ opt.smartcase = true
 -- Highlight cursor line
 opt.cursorline = true
 opt.number = true
+opt.showmode = false
 
 -- Operation
 --
 -- Time wait for typing shortcut keys
 -- opt.timeoutlen = 400
-
+opt.updatetime = 300
 -- opt.foldmethod = "manual"
 
 o.clipboard = "unnamedplus"

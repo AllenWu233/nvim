@@ -14,6 +14,7 @@ return {
 			spec = {
 				{ "<leader>f", group = "file/find" },
 				{ "<leader>g", group = "Git" },
+				{ "<leader>u", group = "UI" },
 			},
 		},
 		keys = {
