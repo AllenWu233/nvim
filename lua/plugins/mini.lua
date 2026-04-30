@@ -21,7 +21,7 @@ return {
 
 			-- require("mini.statusline").setup()
 			-- require("mini.command").setup({})
-			-- require("mini.notify").setup()
+			require("mini.notify").setup()
 			require("mini.tabline").setup()
 
 			require("mini.indentscope").setup({
