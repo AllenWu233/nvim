@@ -43,20 +43,37 @@ return {
                 lualine_b = {'branch', 'diff', 'diagnostics'},
                 lualine_c = {'filename'},
                 lualine_x = {
-                    {
-                        function() return require("noice").api.status.command.get() end,
-                        cond = function() 
-                            return package.loaded["noice"] and require("noice").api.status.command.has() 
-                        end,
-                        color = function() return { fg = Snacks.util.color("Statement") } end,
-                    },
-                    {
-                        function() return require("noice").api.status.mode.get() end,
-                        cond = function() 
-                            return package.loaded["noice"] and require("noice").api.status.mode.has() 
-                        end,
-                        color = function() return { fg = Snacks.util.color("Constant") } end,
-                    },
+                    -- cmd module
+                    -- {
+                    --     function()
+                    --         return "%S"
+                    --     end,
+                    --     color = function() return { fg = Snacks.util.color("Statement") } end,
+                    -- },
+                    -- recording module
+                    -- {
+                    --     function()
+                    --         local recording = vim.fn.reg_recording()
+                    --         if recording == "" then return "" end
+                    --         return "recording @" .. recording
+                    --     end,
+                    --     cond = function() return vim.fn.reg_recording() ~= "" end,
+                    --     color = function() return { fg = Snacks.util.color("Constant") } end,
+                    -- },
+                    -- {
+                    --     function() return require("noice").api.status.command.get() end,
+                    --     cond = function() 
+                    --         return package.loaded["noice"] and require("noice").api.status.command.has() 
+                    --     end,
+                    --     color = function() return { fg = Snacks.util.color("Statement") } end,
+                    -- },
+                    -- {
+                    --     function() return require("noice").api.status.mode.get() end,
+                    --     cond = function() 
+                    --         return package.loaded["noice"] and require("noice").api.status.mode.has() 
+                    --     end,
+                    --     color = function() return { fg = Snacks.util.color("Constant") } end,
+                    -- },
                     'encoding', 'fileformat', 'filetype'
                 },
                 lualine_y = {'progress'},
@@ -79,62 +96,49 @@ return {
 
     -- Replaces the UI for messages, cmdline and the popupmenu
     -- lazy.nvim
-    {
-        "folke/noice.nvim",
-        event = "VeryLazy",
-        opts = {
-            -- add any options here
-            lsp = {
-                -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-                override = {
-                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                    ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-                },
-            },
-            -- you can enable a preset for easier configuration
-            presets = {
-                bottom_search = true, -- use a classic bottom cmdline for search
-                command_palette = true, -- position the cmdline and popupmenu together
-                long_message_to_split = true, -- long messages will be sent to a split
-                inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                lsp_doc_border = false, -- add a border to hover docs and signature help
-            },
-            notify = {
-                enabled = true,
-            },
-        },
-        routes = {
-            {
-                filter = {
-                    event = "msg_show",
-                    any = {
-                        { find = "%d+L, %d+B" },
-                        { find = "; after #%d+" },
-                        { find = "; before #%d+" },
-                    },
-                },
-                view = "mini",
-            },
-        },
-        dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-            "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify",
-        },
-    },
+    -- {
+    --     "folke/noice.nvim",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         lsp = {
+    --             -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    --             override = {
+    --                 ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+    --                 ["vim.lsp.util.stylize_markdown"] = true,
+    --                 ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+    --             },
+    --         },
+    --         -- you can enable a preset for easier configuration
+    --         cmdline = { view = "cmdline" },
+    --         messages = {
+    --             enabled = false, -- Disable message spam at the bottom
+    --         },
+    --         presets = {
+    --             bottom_search = true, -- use a classic bottom cmdline for search
+    --             -- command_palette = true, -- position the cmdline and popupmenu together
+    --             long_message_to_split = true, -- long messages will be sent to a split
+    --             inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    --             lsp_doc_border = false, -- add a border to hover docs and signature help
+    --         },
+    --     },
+    --     dependencies = {
+    --         -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    --         "MunifTanjim/nui.nvim",
+    --         -- OPTIONAL:
+    --         --   `nvim-notify` is only needed, if you want to use the notification view.
+    --         --   If not available, we use `mini` as the fallback
+    --         -- "rcarriga/nvim-notify",
+    --     },
+    -- },
 
-    {
-        "rcarriga/nvim-notify",
-        opts = {
-            animate = false,
-            stages = "static",
-            render = "compact",
-        },
-    },
+    -- {
+    --     "rcarriga/nvim-notify",
+    --     opts = {
+    --         animate = false,
+    --         stages = "static",
+    --         render = "compact",
+    --     },
+    -- },
 
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -153,21 +157,14 @@ return {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         event = { "BufReadPost", "BufNewFile" },
-        opts = {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
-        },
+        opts = {},
     },
 
     {
         "brenoprata10/nvim-highlight-colors",
-        -- only load when a file is opened
         event = { "BufReadPost", "BufNewFile" },
         config = function()
-            -- ensure termguicolors is enabled for color rendering
             vim.opt.termguicolors = true
-            -- initialize the plugin
             require("nvim-highlight-colors").setup()
         end,
     },

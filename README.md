@@ -14,17 +14,6 @@ Keep it simple, stupid.
 | `[e` | Prev Error | **n** |
 | `]w` | Next Warning | **n** |
 | `[w` | Prev Warning | **n** |
-| `gd` | Goto Definition | **n**, **n** |
-| `gr` | References | **n**, **n** |
-| `gI` | Goto Implementation | **n**, **n** |
-| `gy` | Goto T\[y\]pe Definition | **n**, **n** |
-| `gD` | Goto Declaration | **n** |
-| `]]` | Next Reference | **n** |
-| `[[` | Prev Reference | **n** |
-
-
-| Key | Description | Mode |
-| --- | --- | --- |
 | `<leader>cl` | Lsp Info | **n** |
 | `gd` | Goto Definition | **n**, **n** |
 | `gr` | References | **n**, **n** |
